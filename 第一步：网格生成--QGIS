@@ -1,0 +1,22 @@
+1.从GSHHG网站下载数据
+  通过Layer--Add Layer--Add Vector Layer并选择你下载的海岸线数据（如L1 shapefile：GSHHS_1_L1.shp）。
+2.创建新的矢量层
+  通过Layer--Create Layer--New Vector Layer并选择类型为Polygon。
+  选择新创建层，右键选择Toggle Editing.再选择Add Polygon Feature工具，画多边形覆盖目标区域。
+3.创建相交层
+  通过Vector--Geoprocessing Tools--intersect构建。其中以GSHHS为输入层，新的矢量层为覆盖层。
+  （若Vector中无Geoprocessing Tools，可通过Plugins--Manage and Install Plugins安装）
+4.光滑边界
+  可通过Edit--Vertex Tool和Select Features光滑边界、去除‘线型小岛’，
+  或者选中相交层（也是矢量层，注意第3步并不会创建一个新的图层），右键选择Toggle Editing，右键选择Open Attribute Table,将列表按area排序，删除
+  较小面积的，即可以达到去除了很小的岛屿的目的。
+5.将目标区域的polygon变为line
+  通过Vector--Geometry Tools--Polygon to Lines生成只有线的图层。选中新建的只有线的图层，右键选择Toggle Editing，
+  再选择Edit--Vertex Tool，移动陆地上的点到海中（双击点后按住不放，即可移动；双击两点间的线段，可在点击处新生成点），形成海洋边界线。
+  （针对复杂的陆地地形，另有自动生成的方法）。
+6.分割海洋、陆地边界
+  通过Edit--Split Feature分割海洋、陆地边界。之后，右键选择Toggle Editing，右键选择Open Attribute Table，
+  为所有数据增添新的一列值用以表征物理属性，命名为PhysID，陆地边界设置为100，海洋边界设置为200。将此时的‘线面’保存为‘lines.shp’。
+  复制‘线面’，删除海洋边界，保存为‘coastline.shp’。如无法复制，记得先保存！
+  
+  
